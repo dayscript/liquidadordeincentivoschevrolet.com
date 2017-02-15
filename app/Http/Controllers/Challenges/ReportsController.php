@@ -19,7 +19,7 @@ class ReportsController extends Controller
     {
         $useddates = Goalvalue::getUsedDates();
         $goals = Goal::where('active',true)->orderBy('name')->get();
-        $supervisors = Role::find(3)->users()->orderBy('firstname')->get();
+        $supervisors = Role::find(10)->users()->orderBy('firstname')->get();
         $channels = Channel::orderBy('name')->get();
         $date = $request->get('date', $useddates->last());
         $goal = $request->get('goal', '');
@@ -44,7 +44,7 @@ class ReportsController extends Controller
     {
         $useddates = Goalvalue::getUsedDates();
         $goals = Goal::all();
-        $supervisors = Role::find(3)->users;
+        $supervisors = Role::find(10)->users;
         $channels = Channel::all();
         $date = $request->get('date', $useddates->last());
         $goal = $request->get('goal', '');

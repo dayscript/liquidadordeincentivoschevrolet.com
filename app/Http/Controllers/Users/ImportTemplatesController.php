@@ -112,20 +112,25 @@ class ImportTemplatesController extends Controller
             Flash::error('No estás autorizado(a) para esto!');
             return redirect('/import_templates');
         }
+        $role = $template->roles[0]['attributes']['id'];
+
         $this->user->stats()->create(['ip' => $request->ip(), 'action' => 'templatedownload', 'value' => 'Plantilla descargada: ' . $template->id, 'model_id' => $template->id, 'model_type' => get_class($template)]);
         $date = $request->get('date',date('Y-m'));
-        Excel::create('ImportTemplate-' . $template->id . '-'.time(), function ($excel) use ($template,$date) {
+        Excel::create('ImportTemplate-' . $template->id . '-'.time(), function ($excel) use ($template,$date,$role) {
             $excel->setTitle($template->name);
             $excel->setCreator('Sodexo')->setCompany('Sodexo');
             $excel->setDescription('Plantilla para cargar información al sistema de liquidaciones de Sodexo');
-            $excel->sheet('Datos', function ($sheet) use ($template,$date) {
+            $excel->sheet('Datos', function ($sheet) use ($template,$date,$role) {
                 $sheet->loadView('templates.download')
                     ->with('template', $template)
-                    ->with('date', $date);
+                    ->with('date', $date)
+                    ->with('role', $role);
+
+                    
             });
         })
-                        ->download('xls')
-        ;
+                    ->download('xls');
+            
 //        return view('templates.download', compact('template', 'date'));
     }
     /**

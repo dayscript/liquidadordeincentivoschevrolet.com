@@ -390,13 +390,13 @@ class UsersController extends Controller
      * @param Program $program
      * @return array
      */
-    public function processImport(Request $request, Program $program)
-    {
+    public function processImport(Request $request, Program $program) {
+
         if ($request->ajax()) {
             if ($file = $request->file('file')) {
-                $this->validate($request, [
-                    'file' => 'required|mimes:xls,xlsx'
-                ]);
+                #$this->validate($request, [
+                #    'file' => 'required|mimes:xls,xlsx'
+                #]);
                 $results = Excel::load($file->getPathname(), function ($reader) { })->get();
                 //                $exists = collect([]);
                 //                $trashed = collect([]);
@@ -526,9 +526,9 @@ class UsersController extends Controller
                 }
                 $this->user->stats()->create(['ip' => $request->ip(), 'action' => 'userimport', 'value' => 'Importando ' . $results->count() . ' usuarios']);
                 return compact('messages');
-                //                return compact('exists', 'trashed', 'created', 'errors');
+                //return compact('exists', 'trashed', 'created', 'errors');
 
-            }
+            } 
         }
     }
 

@@ -17,7 +17,7 @@
     <tbody>
     @php($users = $user->users)
     @can('edit',new \App\Manager\User\ImportTemplate)
-        @php($users = \App\Manager\User\Role::find(7)->users)
+        @php($users = \App\Manager\User\Role::find($role)->users)
     @endcan
     @foreach($users as $us)
         <tr>
